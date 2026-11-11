@@ -1,0 +1,378 @@
+/* =========================================
+   1. CSS-Variablen (Farbpalette & Abstände)
+   ========================================= */
+:root {
+    --bg-main: #0f172a;        /* Haupthintergrund (Tiefes Schieferblau) */
+    --bg-card: #1e293b;        /* Karten- & Formularhintergrund */
+    --bg-input: #0f172a;       /* Eingabefelder */
+    
+    --text-main: #f8fafc;      /* Hauptschriftfarbe (Fast Weiß) */
+    --text-muted: #94a3b8;     /* Gedämpftes Grau für Labels & Hinweise */
+    
+    --accent: #10b981;         /* Primärfarbe (Smaragd/Salbeigrün) */
+    --accent-hover: #059669;   /* Dunkleres Grün beim Drüberfahren */
+    --border: #334155;         /* Dezente Rahmenfarbe */
+    
+    /* Farben für die späteren Tagebuch-Kategorien */
+    --color-training: #3b82f6; /* Blau */
+    --color-feed: #f59e0b;     /* Bernstein/Gelb */
+    --color-health: #ef4444;   /* Rot */
+
+    --radius-lg: 14px;         /* Rundung für große Karten */
+    --radius-md: 8px;          /* Rundung für Inputs & Buttons */
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   2. Basis-Reset & Typografie
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    padding-bottom: 3rem;
+    /* Erzwingt dunkle Kalender-Popups & Scrollbalken im Browser */
+    color-scheme: dark;
+}
+
+/* Zentrierter Container für Header und Hauptbereich */
+.app-header,
+.app-main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+/* =========================================
+   3. Header & Globale Datumsauswahl
+   ========================================= */
+.app-header {
+    padding-top: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.header-content h1 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.date-picker-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background-color: var(--bg-card);
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.date-picker-wrapper label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.date-picker-wrapper input[type="date"] {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+}
+
+/* =========================================
+   4. Tab-Navigation (Single-Page-Umschalter)
+   ========================================= */
+.tab-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    background-color: var(--bg-card);
+    padding: 0.4rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.7rem 0.5rem;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--text-main);
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.tab-btn.active {
+    background-color: var(--accent);
+    color: #06281e; /* Dunkler Text auf hellem Grün für optimalen Kontrast */
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+}
+
+/* =========================================
+   5. Karten-Layout & Tab-Sichtbarkeit
+   ========================================= */
+.tab-section,
+.logbook-section {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.75rem;
+    box-shadow: var(--shadow);
+}
+
+/* Versteckt inaktive Formulare; zeigt nur die Sektion mit ".active" */
+.tab-section {
+    display: none;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.tab-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* =========================================
+   6. Formular-Elemente & Buttons
+   ========================================= */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.15rem;
+}
+
+/* Setzt Felder in .form-row automatisch nebeneinander */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Grüner Leuchtrahmen beim Antippen eines Feldes */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--accent);
+    color: #06281e;
+    border: none;
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-primary:active {
+    transform: scale(0.99);
+}
+
+/* =========================================
+   7. Logbuch & Dynamische Tagebuch-Karten
+   ========================================= */
+.logbook-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.logbook-header h2 {
+    margin-bottom: 0;
+}
+
+#filter-category {
+    width: auto;
+    min-width: 190px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.entries-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem 1rem;
+    font-style: italic;
+}
+
+/* Styling für die Einträge, die später per JavaScript erzeugt werden */
+.entry-card {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.15rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.entry-card[data-category="training"] { border-left-color: var(--color-training); }
+.entry-card[data-category="feed"]     { border-left-color: var(--color-feed); }
+.entry-card[data-category="health"]   { border-left-color: var(--color-health); }
+
+.entry-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.entry-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.entry-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.entry-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.entry-details {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.btn-delete {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.btn-delete:hover {
+    color: var(--color-health);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* =========================================
+   8. Mobile Optimierung (Smartphones)
+   ========================================= */
+@media (max-width: 520px) {
+    .header-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .date-picker-wrapper {
+        justify-content: space-between;
+    }
+
+    .tab-btn {
+        font-size: 0.82rem;
+        padding: 0.6rem 0.25rem;
+    }
+
+    .logbook-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #filter-category {
+        width: 100%;
+    }
+}

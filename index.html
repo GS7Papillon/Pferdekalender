@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Stall-Tagebuch</title>
+	<!-- Verknüpfung zur externen CSS-Datei -->
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<!-- Kopfbereich mit Titel und globaler Datumsauswahl -->
+	<header class="app-header">
+		<div class="header-content">
+			<h1>🐴 Stall-Tagebuch</h1>
+			<div class="date-picker-wrapper">
+				<label for="entry-date">Datum:</label>
+				<input type="date" id="entry-date" required>
+			</div>
+		</div>
+
+		<!-- Tab-Navigation zum Umschalten der Kategorien (Single-Page-Prinzip) -->
+		<nav class="tab-nav">
+			<button type="button" class="tab-btn active" data-target="sec-training">🏇 Training</button>
+			<button type="button" class="tab-btn" data-target="sec-feed">🌾 Futter</button>
+			<button type="button" class="tab-btn" data-target="sec-health">🩺 Gesundheit</button>
+		</nav>
+	</header>
+
+	<!-- Hauptbereich mit Formularen und Verlauf -->
+	<main class="app-main">
+
+		<!-- 1. Sektion: Sport & Training (Standardmäßig sichtbar durch "active") -->
+		<section id="sec-training" class="tab-section active">
+			<h2>Training eintragen</h2>
+			<form id="form-training">
+				<div class="form-group">
+					<label for="sport-type">Sportart</label>
+					<select id="sport-type" required>
+						<option value="Ausritt">Ausritt</option>
+						<option value="Springen">Springen</option>
+						<option value="Longieren">Longieren</option>
+						<option value="Reitstunde">Reitstunde</option>
+						<option value="Freies Reiten">Freies Reiten</option>
+					</select>
+				</div>
+
+				<div class="form-row">
+					<div class="form-group">
+						<label for="sport-duration">Dauer (Minuten)</label>
+						<input type="number" id="sport-duration" min="5" max="300" step="5" placeholder="z. B. 45" required>
+					</div>
+					<div class="form-group">
+						<label for="sport-intensity">Intensität</label>
+						<select id="sport-intensity" required>
+							<option value="Leicht">Leicht (Locker)</option>
+							<option value="Mittel" selected>Mittel (Arbeitsphase)</option>
+							<option value="Hoch">Hoch (Schweres Training)</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="horse-mood">Verhalten & Gefühl des Pferdes</label>
+					<select id="horse-mood" required>
+						<option value="Motiviert & losgelassen">Motiviert & losgelassen</option>
+						<option value="Entspannt & brav">Entspannt & brav</option>
+						<option value="Guckig / Schreckhaft">Guckig / Schreckhaft</option>
+						<option value="Triebig / Müde">Triebig / Müde</option>
+						<option value="Spannig / Klemmig">Spannig / Klemmig</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="sport-notes">Notizen zum Training (optional)</label>
+					<textarea id="sport-notes" rows="2" placeholder="Besondere Lektionen, Gelände-Bedingungen..."></textarea>
+				</div>
+
+				<button type="submit" class="btn-primary">Training speichern</button>
+			</form>
+		</section>
+
+		<!-- 2. Sektion: Fütterung -->
+		<section id="sec-feed" class="tab-section">
+			<h2>Futterration eintragen</h2>
+			<form id="form-feed">
+				<div class="form-row">
+					<div class="form-group">
+						<label for="feed-type">Futterart</label>
+						<input type="text" id="feed-type" placeholder="z. B. Heu, Hafer, Mash, Mineralfutter" required>
+					</div>
+					<div class="form-group">
+						<label for="feed-weight">Menge pro Tag</label>
+						<input type="number" id="feed-weight" min="0" step="0.05" placeholder="z. B. 1.5" required>
+					</div>
+					<div class="form-group">
+						<label for="feed-unit">Einheit</label>
+						<select id="feed-unit">
+							<option value="kg">Kilogramm (kg)</option>
+							<option value="g">Gramm (g)</option>
+						</select>
+					</div>
+				</div>
+
+				<button type="submit" class="btn-primary">Futter speichern</button>
+			</form>
+		</section>
+
+		<!-- 3. Sektion: Gesundheit -->
+		<section id="sec-health" class="tab-section">
+			<h2>Gesundheitsdaten eintragen</h2>
+			<form id="form-health">
+				<div class="form-group">
+					<label for="health-category">Kategorie</label>
+					<select id="health-category" required>
+						<option value="Impfung">Impfung</option>
+						<option value="Verletzung / Lahmheit">Verletzung / Lahmheit</option>
+						<option value="Wurmkur">Wurmkur</option>
+						<option value="Hufschmied / Hufpflege">Hufschmied / Hufpflege</option>
+						<option value="Zahnarzt / Osteopathie">Zahnarzt / Osteopathie</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="health-details">Befund / Details / Medikament</label>
+					<textarea id="health-details" rows="3" placeholder="Was wurde gemacht oder festgestellt?" required></textarea>
+				</div>
+
+				<button type="submit" class="btn-primary">Gesundheitseintrag speichern</button>
+			</form>
+		</section>
+
+		<!-- Chronologisches Tagebuch (Logbuch für alle Einträge) -->
+		<section class="logbook-section">
+			<div class="logbook-header">
+				<h2>Tagebuch-Verlauf</h2>
+				<select id="filter-category">
+					<option value="all">Alle Einträge anzeigen</option>
+					<option value="training">Nur Training</option>
+					<option value="feed">Nur Futter</option>
+					<option value="health">Nur Gesundheit</option>
+				</select>
+			</div>
+
+			<!-- In diesen Container fügt JavaScript später die gespeicherten Karten ein -->
+			<div id="entries-list" class="entries-container">
+				<p class="empty-state">Noch keine Einträge vorhanden.</p>
+			</div>
+		</section>
+
+	</main>
+
+	<!-- Verknüpfung zur JavaScript-Datei ganz am Ende des Bodys -->
+	<script src="app.js"></script>
+</body>
+</html>
